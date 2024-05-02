@@ -22,7 +22,7 @@ class Solution:
         return True if not stack else False # Then we return True if the stack is empty and false if the stack is not since we couldnt find an opening parentheses while referencing the HashMap.
     
 solution = Solution()
-test_1 = "()[]{}"
+test_1 = "[()]{}"
 
 res = solution.isValid(test_1)
 print(res)
