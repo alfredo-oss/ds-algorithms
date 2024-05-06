@@ -6,10 +6,10 @@ class Solution:
         
         if pal:
             for i in range(len(pal)-1, -1, -1):
-                if  pal[i].lower() not in [",", ".", ";", " ", ":"]:
+                if  pal[i].isalnum():
                     rev.append(pal[i].lower())
             for i in range(len(pal)):
-                if  pal[i].lower() not in [",", ".", ";", " ", ":"]:
+                if  pal[i].isalnum():
                     cpal.append(pal[i].lower())
             return rev == cpal
         else:
