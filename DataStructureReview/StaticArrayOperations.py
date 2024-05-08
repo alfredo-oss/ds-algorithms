@@ -62,4 +62,42 @@ def removeIthElement(array: List[int], index: int, length: int) -> List[int]:
 
 print(f"Remove element from an i-th index: \n Original: {myArray} \n Modified: {removeIthElement(myArray, 1, len(myArray))}")
 
+#############################################################################
+################ Inserting to an array ######################################
+#############################################################################
+
+# "Inserting" at the end of an array: Since we can always access the last index of the array, inserting an element at the end of an array is O(1) time.
+# "capacity" is the size (aka memory allocated for the fixed size array)
+# The difference between length and capacity is that "length" is the number of elements inside the array whereas capacity refers to the maximum numbers of elements that an array can hold.
+
+def insertEnd(arr: List[int], n: int, length: int, capacity: int) -> List[int]:
+    if length < capacity:
+        arr[length] = n # We assign arr[length] instead of "length - 1" because we are inserting, not replacing the last element :) <3
+    return arr
+
+#########################
+## Writing a test case:##
+#########################
+myInsertionMemoryArray = [None]*10
+
+## Adding the actual values of the array up until certain point
+for i in range(5):
+    myInsertionMemoryArray[i] = i
+
+## To get the actual "length" of the array we actually need to check which values are not "None"
+length = 0
+
+for i in range(len(myInsertionMemoryArray)):
+    if myInsertionMemoryArray[i] is not None:
+        length +=1
+
+n = 8
+
+capacity = len(myInsertionMemoryArray)
+
+print(f"Original Array: {myInsertionMemoryArray}")
+print(f"Inserting: {n}")
+print(f"Length: {length}")
+print(f"Modified array with inserted element: {insertEnd(myInsertionMemoryArray, n, length, capacity)}")
+
 
