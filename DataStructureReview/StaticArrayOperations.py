@@ -50,14 +50,16 @@ def removeEndElement(array: List[int], length:int) -> List[int]:
         array[length - 1] = 0 
     return array
 
-print(f"Remove Element: \n Original: {myArray} \n Modified: {removeEndElement(myArray, len(myArray))}")
+print(f"Remove element from the end of the array: \n Original: {myArray} \n Modified: {removeEndElement(myArray, len(myArray))}")
 
 ## "Deleting an element at the #ith index"
 ## Since elements can't be actually removed from memory, the technique when removing an element from the middle of an array is shift every element that is to the right of that element, to the left of the array, the found element will be replaced by the the contiguous element. Shifting all the elements to the left is neccessary because we cant break the "contiguous values" concept of arrays.
 
 def removeIthElement(array: List[int], index: int, length: int) -> List[int]:
-    for i in range(i+1, length): ## There is no "if" to check since the we already know at what index is the element we want to get rid off.
+    for i in range(index+1, length): ## There is no "if" to check since the we already know at what index is the element we want to get rid off.
         array[i-1] = array[i]
-        
+    return array
+
+print(f"Remove element from an i-th index: \n Original: {myArray} \n Modified: {removeIthElement(myArray, 1, len(myArray))}")
 
 
