@@ -75,21 +75,42 @@ def insertEnd(arr: List[int], n: int, length: int, capacity: int) -> List[int]:
         arr[length] = n # We assign arr[length] instead of "length - 1" because we are inserting, not replacing the last element :) <3
     return arr
 
+## - Function -  to initialize array size in memory:
+
+def memArray(size: int) -> List[int]:
+    arr = [None]*size
+    return arr
+
+##  - Function -  to write/replace with actual values the array initialized in memory:
+### Restrictions: - This function only generates contiguous values without mathematical operations, thus, they only increase by 1.
+###               - You can't add a range of values that exceeds the size of the array. That would end up crashing the structure.
+### You can define the range in which those contiguos values go, for example, I want 4 contiguous values that go from 0 to 3.
+
+def actArray(init: int, final: int, arr:int) -> List[int]:
+    for i in range(init, final + 1):
+       arr[i] = i
+    return arr
+    
+## - Function - to get the length of the array that is allocated to asignated values
+def getlength(arr: List[int]) -> int:
+    l = 0
+    for i in range(len(arr)):
+        if arr[i] is not None:
+            l += 1
+    return l
 #########################
 ## Writing a test case:##
 #########################
-myInsertionMemoryArray = [None]*10
+
+# Writing the size of the array allocated in memory
+
+myInsertionMemoryArray = memArray(10)
 
 ## Adding the actual values of the array up until certain point
-for i in range(5):
-    myInsertionMemoryArray[i] = i
+myInsertionMemoryArray = actArray(0,5,myInsertionMemoryArray)
 
-## To get the actual "length" of the array we actually need to check which values are not "None"
-length = 0
-
-for i in range(len(myInsertionMemoryArray)):
-    if myInsertionMemoryArray[i] is not None:
-        length +=1
+## Getting the actual length of the array
+length = getlength(myInsertionMemoryArray)
 
 n = 8
 
@@ -98,6 +119,10 @@ capacity = len(myInsertionMemoryArray)
 print(f"Original Array: {myInsertionMemoryArray}")
 print(f"Inserting: {n}")
 print(f"Length: {length}")
-print(f"Modified array with inserted element: {insertEnd(myInsertionMemoryArray, n, length, capacity)}")
+print(f"Modified array with inserted element: {insertEnd(myInsertionMemoryArray, 8, getlength(myInsertionMemoryArray), len(myInsertionMemoryArray))}")
 
+
+############################################################
+##########      Inserting at the (ith) index ###############
+############################################################
 
