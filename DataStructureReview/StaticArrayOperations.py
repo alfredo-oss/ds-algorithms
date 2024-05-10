@@ -126,3 +126,31 @@ print(f"Modified array with inserted element: {insertEnd(myInsertionMemoryArray,
 ##########      Inserting at the (ith) index ###############
 ############################################################
 
+def insertEnd(arr: List[int], i: int, n: int, length: int, capacity: int) -> List[int]:
+    if length < capacity:
+        for index in range(length-1, i-1, -1):
+            arr[index + 1] = index
+    
+    ## After the elements are shift to the right, we can insert the element
+    arr[i] = n
+
+    return arr
+
+# Writing the size of the array allocated in memory
+
+myInsertionMemoryArray = memArray(10)
+
+## Adding the actual values of the array up until certain point
+myInsertionMemoryArray = actArray(0,7,myInsertionMemoryArray)
+
+## Getting the actual length of the array
+length = getlength(myInsertionMemoryArray)
+
+n = 5
+
+index = 3
+
+print(f"Original Array: {myInsertionMemoryArray}")
+print(f"Inserting: {n}")
+print(f"Length: {length}")
+print(f"Modified array with inserted element: {insertEnd(myInsertionMemoryArray, index, n, getlength(myInsertionMemoryArray), len(myInsertionMemoryArray))}")
