@@ -17,53 +17,102 @@ class DoubleLinkedList:
         while cur and index > 0: # While the current pointer is not null because we could possibly go out of bounds and the index is greater than 0. This is an alternative technique to modify the position of the pointer, technically you are still iterating over the linked list since the .next and .prev commands are the ones that lead the orientation of the iteration. The counter index serves its own purpose decrementing and allowing 'index' amount of iterations.
             cur = cur.next # On each iteration we will be moving to the right since that is the orientation tha the .next command gives us.
             index -= 1 # We decrement the value of index to allow for iterations.
-            if cur and cur != self.right and index == 0: # We check that we didnt go out of bounds, that we are not positioned at the right dummy node and that index has gotten to 0 which is the equivalent of iterating as many times as required.
-                return cur.val # If the conditions are met then we return the current value
-            return -1 # Else we return -1 indicating we went out of bounds.
+
+        if cur and cur != self.right and index == 0: # We check that we didnt go out of bounds, that we are not positioned at the right dummy node and that index has gotten to 0 which is the equivalent of iterating as many times as required.
+            return cur.val # If the conditions are met then we return the current value
+        return -1 # Else we return -1 indicating we went out of bounds.
     
     def addAtHead(self, val) -> None:
-        cur_head = self.left.next
-        new_head = ListNode(val)
-        self.left.next = new_head
-        new_head.next = cur_head
-        new_head.prev = self.left
-        cur_head.prev = new_head
+        """
+        We start by assigning the main nodes we will be operating with to shorter named variables,
+        so it becomes easier to handle them along the code.
+        Since we know we are operating at the head of the linked list and we will have to be 
+        linking the new node to one previously and another one following the node we want to 
+        insert. 
+        ** The previous node: Left dummy node [We always want to keep this node alive].
+        ** The actual node: Declaration of a node with the value we want to insert.
+        ** The following node: The inmediate node that follows the next dummy node.
+        """
+        node, next, prev = ListNode(val), self.left.next, self.left
+        prev.next = node
+        node.prev = prev
+        node.next = next
+        next.prev = node
 
     def addAtTail(self, val) -> None:
-        new_tail = ListNode(val)
-        self.tail.next = new_tail
-        new_tail.prev = self.tail
-        self.tail = new_tail
+        node, next, prev = ListNode(val), self.right, self.right.prev
+        prev.next = node
+        node.prev = prev
+        node.next = next
+        next.prev = node
 
     def addAtIndex(self, val, index) -> None:
         """
         This method adds the value "val" before the ith index node in the linked list.
-        If index equals the length of the linked list, the node will be appended to the end of the linked list thus, we would be calling addAtTail
+        If index equals the length of the linked list, the node will be appended to the
+        end of the linked list thus, we would be calling addAtTail.
         If the index is greater than the length, the node will not be inserted.
         """
-        curr = self.head
-        r = 0
-        while r != index and curr:
-            curr = curr.next
-            r += 1
-        if curr and curr.next == None:
-            self.addAtTail(val)
-        elif curr:
-            dummy = curr.prev
-            new_node = ListNode(val)
-            curr.prev = new_node
-            new_node.next = curr
-            new_node.prev = dummy
-            dummy.next = new_node
+        cur = self.left.next # We initialize our pointer to start at the node that follows the dummy node which would be our actual "head".
+        while cur and index > 0: # While the current pointer is not null because we could possibly go out of bounds and the index is greater than 0. This is an alternative technique to modify the position of the pointer, technically you are still iterating over the linked list since the .next and .prev commands are the ones that lead the orientation of the iteration. The counter index serves its own purpose decrementing and allowing 'index' amount of iterations.
+            cur = cur.next # On each iteration we will be moving to the right since that is the orientation tha the .next command gives us.
+            index -= 1 # We decrement the value of index to allow for iterations.
+            
+        if cur and index == 0: # We check that we didnt go out of bounds, that we are not positioned at the right dummy node and that index has gotten to 0 which is the equivalent of iterating as many times as required.
+            node, next, prev = ListNode(val), cur, cur.prev
+            prev.next = node
+            node.prev = prev
+            node.next = next
+            next.prev = node
+            
     
     def deleteAtIndex(self, index: int) -> None:
-        curr = self.head
-        r = 0
-        while r != index and curr:
-            curr = curr.next
-            r += 1
-        if curr:
-            dummy_right = curr.next
-            dummy_left = curr.prev
-            dummy_right.prev = dummy_left
-            dummy_left.next = dummy_right 
+        cur = self.left.next
+        while cur and index > 0:
+            cur = cur.next
+            index -= 1
+
+        if cur and cur != self.right and index == 0:
+            prev, next = cur.prev, cur.next
+            prev.next = next
+            next.prev = prev
+
+
+def test_double_linked_list():
+    # Initialize the double linked list
+    dll = DoubleLinkedList()
+
+    # Add elements at head
+    dll.addAtHead(1)
+    dll.addAtHead(2)
+    dll.addAtHead(3)
+    
+    # Add elements at tail
+    dll.addAtTail(4)
+    dll.addAtTail(5)
+    
+    # Add element at index 2 (0-based index)
+    dll.addAtIndex(6, 2)
+    
+    # Get elements and check if they are correct
+    assert dll.get(0) == 3, f"Expected 3, got {dll.get(0)}"
+    assert dll.get(1) == 2, f"Expected 2, got {dll.get(1)}"
+    assert dll.get(2) == 6, f"Expected 6, got {dll.get(2)}"
+    assert dll.get(3) == 1, f"Expected 1, got {dll.get(3)}"
+    assert dll.get(4) == 4, f"Expected 4, got {dll.get(4)}"
+    assert dll.get(5) == 5, f"Expected 5, got {dll.get(5)}"
+    
+    # Delete element at index 2
+    dll.deleteAtIndex(2)
+    
+    # Check the list after deletion
+    assert dll.get(0) == 3, f"Expected 3, got {dll.get(0)}"
+    assert dll.get(1) == 2, f"Expected 2, got {dll.get(1)}"
+    assert dll.get(2) == 1, f"Expected 1, got {dll.get(2)}"
+    assert dll.get(3) == 4, f"Expected 4, got {dll.get(3)}"
+    assert dll.get(4) == 5, f"Expected 5, got {dll.get(4)}"
+
+    print("All test cases passed!")
+
+# Run the test
+test_double_linked_list()
