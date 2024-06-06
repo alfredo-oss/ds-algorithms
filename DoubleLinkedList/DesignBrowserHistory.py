@@ -1,42 +1,34 @@
 class ListNode:
-    def __init__(self, val):
+    def __init__(self, val, prev=None, next=None):
         self.val = val
-        self.next = None
-        self.prev = None
+        self.prev = prev
+        self.next = next
 
 class BrowserHistory:
 
     def __init__(self, homepage: str) -> None:
-        self.left = ListNode(0)
-        self.right = ListNode(0)
-        self.home_page = ListNode(homepage)
-        self.left.next = self.home_page
-        self.home_page.prev = self.left
-        self.home_page.next = self.right
-        self.right.prev = self.home_page
+        """
+        With dummy nodes we would be adding unnecessary code.
+        We initialize the cur node to the homepage string
+        """
+        self.cur = ListNode(homepage)
 
-    def visit(self, url: str) -> None:
-        node, prev, next = ListNode(url), self.right.prev, self.right
-        prev.next = node
-        node.prev = prev
-        node.next = next
-        next.prev = node
+    def visit(self, url: str) -> None: 
+        """
+        Here is really important to take into account that the node "homepage" was created.
+        """
+        self.cur.next = ListNode(url, self.cur) # By declaring "prev" and "next" we are allowing the link declaration to take place in one line.
+        self.cur = self.cur.next # We update the cur node.
 
-    def back(self, steps: int) -> str: 
-        node = self.left.next
-        while node and steps > 0:
-            node = node.next
+    def back(self, steps: int) -> str:  
+        while self.cur.prev and steps > 0: # We this we make sure we end up stopping as soon as we reach the last node or the desired number of steps.
+            self.cur = self.cur.prev
             steps -= 1
-        if node == self.right or not node:
-            return self.right.prev.val    
-        return node.val
+        return self.cur.val
     
     def forward(self, steps: int) -> str:
-        node = self.right.prev
-        while node and steps > 0:
-            node = node.prev
+        while self.cur.next and steps > 0:
+            self.cur = self.cur.next
             steps -= 1
-        if node == self.left or not node:
-            return self.left.next
-        return node.val
+        return self.cur.val
         
