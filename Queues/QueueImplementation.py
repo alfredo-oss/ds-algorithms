@@ -36,7 +36,7 @@ class Queue:
         # Remove left node and return value
         val = self.left.val
         self.left = self.left.next
-        if not self.left: # If by de-linking that head or left pointer, we ran out of elements in the queue
+        if not self.left: # If by de-linking that head or left pointer, we ran out of elements in the queue.
             self.right = None # We set the right pointer to be None, going back to the initial values that the constructor sets.
         return val
     
