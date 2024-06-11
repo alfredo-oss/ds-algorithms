@@ -30,8 +30,7 @@ class Queue:
     
     def dequeue(self):
         # Queue is empty
-        if not self.left:
-            return None
+        self.isEmpty()
         
         # Remove left node and return value
         val = self.left.val
@@ -40,12 +39,18 @@ class Queue:
             self.right = None # We set the right pointer to be None, going back to the initial values that the constructor sets.
         return val
     
+    def isEmpty(self):
+        # Queue is empty
+        if not self.left:
+            return None
+    
     def print(self):
         cur = self.left
         while cur:
             print(cur.val, ' -> ', end="")
             cur = cur.next
         print()
+
 
 
         
