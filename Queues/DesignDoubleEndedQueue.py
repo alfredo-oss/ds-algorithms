@@ -48,5 +48,5 @@ class DoubleEndedQueue:
             
 
     def isEmpty(self) -> bool:
-        return not self.left
+        return self.left.next == self.right
      
