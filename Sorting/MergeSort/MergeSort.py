@@ -4,7 +4,7 @@ class CustomSort:
 # Implementation of MergeSort
 
     # Utility function "merge"
-    def merge(self, arr: List[int], s: int, m: int, e: int) -> List[int]:
+    def merge(self, arr: List[int], s: int, m: int, e: int) -> None:
 
         # Copy the sorted left & right halfs to temp arrays
         L = arr[s: m + 1]
@@ -15,7 +15,7 @@ class CustomSort:
         k = s # index for arr
 
         # Merge the two sorted halfs into the original array
-        while i < len(L) and len(R):
+        while i < len(L) and j < len(R):
             if L[i] <= R[j]:
                 arr[k] = L[i]
                 i += 1
@@ -33,8 +33,6 @@ class CustomSort:
             arr[k] = R[j]
             j += 1
             k += 1
-
-        return arr
 
 
     def mergeSort(self, arr: List[int], s: int, e: int) -> List[int]:
