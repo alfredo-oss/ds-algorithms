@@ -18,7 +18,7 @@ class Solution:
         pivot = pairs[e]
         left = s
 
-        for i in range(s, e):
+        for i in range(s, e): # It is necessary to add the range "s - e" because s will vary once its called recursively to sort the right's halfs!!
             if pairs[i].key < pivot.key:
                 tmp = pairs[left]
                 pairs[left] = pairs[i]
@@ -34,10 +34,3 @@ class Solution:
 
          # Recursive call on the remaining right part of the array
         self.quickSortHelper(pairs, left + 1, e)
-
-"""
-pairs = [(3, "cat"), (2, "dog"), (3, "bird")]
-print(len(pairs))
-print(pairs[0].key)
-print(pairs[1])
-"""
