@@ -21,4 +21,4 @@ def minValueNode(root):
     curr = root
     while curr and curr.left:
         curr = curr.left
-    return curr
+    return curr 
