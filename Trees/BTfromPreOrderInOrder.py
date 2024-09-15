@@ -16,3 +16,5 @@ class Solution:
         mid = inorder.index(preorder[0]) # I thoght the way to connect these two arrays was going to be more difficult but the use of the .index method was fine.
         root.left = self.buildTree(preorder[1:mid + 1], inorder[:mid])
         root.right = self.buildTree(preorder[mid + 1:], inorder[mid + 1:])
+
+        return root
