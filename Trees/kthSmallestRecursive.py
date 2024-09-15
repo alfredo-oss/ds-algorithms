@@ -18,5 +18,5 @@ class Solution:
             inorder(root.right)
 
             return res
-        
+        inorder(root) #Of course the helper function needs to be called on the root
         return res[k-1]
