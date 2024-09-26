@@ -1,29 +1,21 @@
 from typing import List
-from collections import deque
 
 class Solution:
-    def Subset(self, nums: List[int]) -> List[List[int]]:
+    def subsets(self, nums: List[int]) -> List[List[int]]:
         res = []
-        temp = deque(nums)
+        subset = []
 
-        def backtrack(temp):
-
-            print(temp)
-            res.append(list(temp))
-
-            if not temp:
-                return res
+        def dfs(i):
+            if i >= len(nums):
+                res.append(subset.copy()) # this line will append each Leaf Node
+                return
             
-            if [temp[0]] not in res:
-                res.append([temp[0]])
-                
-            temp.popleft()
-            backtrack(temp)
+            # decision to include nums[i]
+            subset.append(nums[i]) #represents the green line path of adding the evaluated element to the objective list
+            dfs(i + 1) # we proceed to call the following element on the array
 
-        backtrack(temp)
+            subset.pop()
+            dfs(i + 1)
+
+        dfs(0)
         return res
-    
-solution = Solution()
-test = [1,2,3]
-result = solution.Subset(test)
-print(result)
