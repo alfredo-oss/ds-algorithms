@@ -60,3 +60,5 @@ class Heap:
     def heapify(self, arr):
         # 0-th position is moved to the end
         arr.append(arr[0])
+
+        self.heap = arr
