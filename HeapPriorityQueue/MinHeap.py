@@ -62,3 +62,31 @@ class Heap:
         arr.append(arr[0])
 
         self.heap = arr
+        cur = (len(self.heap)-1) // 2
+
+        # the outer loop indicates what node with children are we considering for the "percolate down" operation
+        while cur > 0:
+            # percolate down
+            i = cur
+            while 2 * i < len(self.heap): # while the current node has at least a left child 
+                if ((2 * i + 1 < len(self.heap)) and
+                    (self.heap[2 * i] > self.heap[2 * i + 1]) and 
+                    (self.heap[i] > self.heap[2 * i + 1])): # the first thing to check is that we actually have a right child
+
+                    # perform swap with right child
+                    tmp = self.heap[i]
+                    self.heap[i] = self.heap[2 * i + 1]
+                    self.heap[2 * i + 1] = tmp
+                    i = 2 * i + 1
+
+                elif (self.heap[i] > self.heap[2 * i]):
+                    # perform swap with left child
+                    tmp = self.heap[i]
+                    self.heap[i] = self.heap[2 * i]
+                    self.heap[2 * i] = tmp
+                    i = 2 * i
+                
+                else:
+                    break
+            cur -= 1
+            # since you are modifying the main data structure which is accesible from the constructor point it is not necessary to return it
