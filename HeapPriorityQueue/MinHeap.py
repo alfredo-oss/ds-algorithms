@@ -89,4 +89,5 @@ class Heap:
                 else:
                     break
             cur -= 1
-            # since you are modifying the main data structure which is accesible from the constructor point it is not necessary to return it
+            # since you are modifying the main data structure and
+            # that is the function sole's functionality
