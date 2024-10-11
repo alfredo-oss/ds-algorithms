@@ -14,6 +14,6 @@ class KthLargest:
         self.heapmin.push(self.minHeap, val)
         if len(self.minHeap) > self.k:
             self.heapmin.pop(self.minHeap) # we want to pop the "excess" of data
-        return self.minHeap[0]
+        return self.minHeap[0] # returning the smallest value at the top of the tree
 
 
