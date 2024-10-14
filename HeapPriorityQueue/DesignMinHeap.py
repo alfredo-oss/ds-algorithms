@@ -56,3 +56,8 @@ class MinHeap:
             else:
                 break
         return res
+    
+    def top(self) -> int:
+        if len(self.heap) <= 1:
+            return None
+        return self.heap[1]
