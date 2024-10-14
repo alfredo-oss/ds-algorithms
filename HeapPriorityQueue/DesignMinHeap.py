@@ -26,3 +26,33 @@ class MinHeap:
             self.heap[i] = self.heap[i//2]
             self.heap[i//2] = tmp
             i = i//2
+
+    def pop(self) -> int:
+        
+        if len(self.heap) <= 1:
+            return None
+        # pop the minimum element
+        res = self.heap[1]
+        # replace the top element with the last element of the array and proceed to percolate it down
+        self.heap[1] = self.heap[len(self.heap) - 1]
+        i = 1
+        while len(self.heap) > 2 * i: # while there is at least a left child
+
+            if (len(self.heap) > 2 * i + 1 and 
+                 self.heap[2 * i + 1] < self.heap[2 * i] and
+                 self.heap[i] > self.heap[2 * i + 1]):
+                # swap with right child
+                tmp = self.heap[2 * i + 1]
+                self.heap[i] = self.heap[2 * i + 1]
+                self.heap[2 * i + 1] = tmp
+                i = 2 * i + 1
+
+            elif self.heap[2 * i] < self.heap[i]:
+                # swap left child
+                tmp = self.heap[i]
+                self.heap[i] = self.heap[2 * i]
+                self.heap[2 * i] = tmp
+                i = 2 * i
+            else:
+                break
+        return res
