@@ -1,3 +1,5 @@
+from typing import List
+
 class MinHeap:
     """
     class MinHeap helps us structure our arrays in a way that it is easier to retrieve minimum elements.
@@ -61,3 +63,38 @@ class MinHeap:
         if len(self.heap) <= 1:
             return None
         return self.heap[1]
+    
+    def heapify(self, nums: List[int]) -> None:
+
+        if len(nums) <= 1:
+            return nums
+        
+        # 0-th position is moved to the end
+        nums.append(nums[0])
+
+        self.heap = nums
+
+        # we can start at the first node that has children
+        cur = (len(self.heap)-1) // 2
+
+        while cur > 0: # this means "until we haven't" reached the parent node
+            i = cur
+            # Percolate down the current node
+            while len(self.heap) > 2 * i:
+                if (len(self.heap) > 2 * i + 1 and
+                    self.heap[2*i+1] < self.heap[2*i] and
+                    self.heap[i] > self.heap[2*i+1]):
+                    # swap right child
+                    tmp = self.heap[i]
+                    self.heap[i] = self.heap[2*i+1]
+                    self.heap[2*i+1] = tmp
+                    i = 2*i+1
+                elif (self.heap[i] > self.heap[2*i]):
+                    # swap left child
+                    tmp = self.heap[i]
+                    self.heap[i] = self.heap[2*i]
+                    self.heap[2*i] = tmp
+                    i = 2 * i
+                else:
+                    break
+            cur-=1
