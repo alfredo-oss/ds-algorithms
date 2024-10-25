@@ -1,17 +1,17 @@
+class Node:
+    def __init__(self, key: int, val: int) -> None:
+        self.key = key
+        self.val = val
+        self.prev = None
+        self.next = None
+
 class LRUCache:
     def __init__(self, capacity: int) -> None:
         self.capacity = capacity
         self.cache = {}
+        self.left = Node(0,0)
+        self.right = Node(0,0)
+        self.left.next = self.right
+        self.right.prev = self.left
 
-    def get(self, key: int) -> int:
-        if key not in self.cache:
-            return -1
-        return self.cache[key]
-
-    def put(self, key: int, value: int) -> None:
-         helper = []
-         if len(self.cache) == self.capacity:
-            for element in self.cache.keys():
-                 helper.append(element)
-            self.cache.pop(element[0])     
-         self.cache[key] = value
+    
