@@ -47,11 +47,11 @@ class HashMap:
         
         index = self.hash(key)
         while True:
-            if self.map[index] == key:
+            if self.map[index].key == key:
                 # Removing an element using open-addressing actually causes a bug,
                 # because may create a hole in the list and our get() method would
                 # stop searching early because of this bug
-                self.map = None
+                self.map[index] = None
                 self.size -= 1
                 return
             index += 1
