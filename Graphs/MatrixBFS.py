@@ -1,5 +1,6 @@
 from typing import List
 from collections import deque
+
 class Solution:
     def shortestPath(self, grid:List[List[int]]) -> int:
         ROWS, COLS = len(grid), len(grid[0])
