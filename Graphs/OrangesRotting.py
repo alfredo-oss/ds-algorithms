@@ -40,9 +40,9 @@ class Solution:
             length, fresh_count = search(ROWS, COLS, 0, visit, queue, grid, fresh_count)
             if fresh_count == 0:
                 return length
-            elif length == 0:
+            elif fresh_count > 0:
                 return - 1
-        elif queue and fresh_count == 0:
+        elif fresh_count == 0:
             return 0
-        else: 
-            return - 1
+        else:
+            return -1
