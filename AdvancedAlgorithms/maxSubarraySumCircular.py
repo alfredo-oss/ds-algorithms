@@ -40,6 +40,19 @@ restrictions:
 -------------
 -> we cant overlap pointers!
     -> which means that somehow we need to keep track of our left and right pointers.
-
-
 """
+from typing import List
+class Solution:
+    def maxSubarraySumCircular(self, nums: List[int]) -> int:
+        globMax, globMin = nums[0], nums[0]
+        curMax, curMin = 0, 0
+        total = 0
+
+        for n in range(len(nums)):
+            total += nums[n]
+            curMax = max(nums[n], curMax + nums[n])
+            curMin = min(nums[n], curMin + nums[n])
+            globMax = max(curMax, globMax)
+            globMin = min(curMin, globMin)
+        return max(globMax, total-globMin) if globMax > 0 else globMax
+        
