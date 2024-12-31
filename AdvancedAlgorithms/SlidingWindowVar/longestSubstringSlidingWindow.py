@@ -1,13 +1,13 @@
 class Solution:
-    def longestConsecutive(self, s: str) -> int:
-        L = 0
-        res = 0
+    def lengthOfLongestSubstring(self, s: str) -> int:
         charSet = set()
+        l = 0
+        res = 0
 
-        for R in range(len(s)):
-            while s[R] in charSet:
-                charSet.remove(s[L])
-                L += 1
-            charSet.add(s[R])
-            res = max(R - L + 1, res)
+        for r in range(len(s)):
+            while s[r] in charSet:
+                charSet.remove(s[l])
+                l += 1
+            charSet.add(s[r])
+            res = max(res, r - l + 1)
         return res
