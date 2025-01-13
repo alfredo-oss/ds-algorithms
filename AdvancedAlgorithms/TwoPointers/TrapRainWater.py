@@ -27,7 +27,7 @@ class Solution:
         maxLeft , maxRight = height[L], height[R]
         while L < R:
             if height[L] < height[R]:
-                L += 1 # we shift and then compare, other wise we cant look at the wall.
+                L += 1 
                 maxLeft = max(maxLeft, height[L])
                 res += maxLeft - height[L]
             else:
@@ -35,3 +35,4 @@ class Solution:
                 maxRight = max(maxRight, height[R])
                 res += maxRight - height[R]
         return res
+    
