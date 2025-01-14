@@ -50,7 +50,7 @@ for index in range(len(sum_array)):
         return index
 return -1
 
-I didnt came up with the most elegant solution but it worked
+I didnt came up with the most elegant solution but it worked!
 """
 class Solution:
     def pivotIndex(self, nums: list[int]) -> int:
@@ -72,3 +72,43 @@ class Solution:
             if leftSum == rightSum:
                 return index
         return -1
+    
+"""
+There is actually a more elegant way to solve this problem. It reduces the memory usage but not the time
+complexity. And that is because instead of calculating an auxiliary array holding the prefix-sum we can
+directly calculate the total sum.
+So, at any point in time and in order to consider the case of the leftSum = 0, we will need to traverse the 
+whole array.
+    [1 ,2 ,3 ,4 ,5]
+     |           |
+  [pivot       [total
+   index]        sum] -> there is a pre-work of calculating the [total sum]
+
+at x point in the array:
+------------------------   
+leftSum: will increment with the traversal of the main pointer
+rightSum = totalsum - arr[pivotIndex] - leftSum
+
+elegant solution:
+-----------------
+class Solution:
+    def pivotIndex(self, nums: int) -> int:
+        leftSum = 0
+        totalSum = sum(nums) # O(n)
+        for index in range(len(nums)):
+            rightSum = totalSum - nums[index] - leftSum
+            if leftSum == rightSum:
+                return True
+            leftSum += nums[index]
+        return False   
+"""
+class Solution:
+    def pivotIndex(self, nums: int) -> int:
+        leftSum = 0
+        totalSum = sum(nums) # O(n)
+        for index in range(len(nums)):
+            rightSum = totalSum - nums[index] - leftSum
+            if leftSum == rightSum:
+                return True
+            leftSum += nums[index]
+        return False   

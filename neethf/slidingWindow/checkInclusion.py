@@ -4,42 +4,24 @@ output: bool
 
 notes:
 -----
-* check if a permutation of s1 is contained in the s2.
+* we are asked to solve this problem in O(n) time and O(1) space.
 
-example:
--------
-*** 
-Input: s1 = "abc", s2 = "lecabee"
-Output: true
+* the problem statement gives us a hint of the strings only containing a - z letters
 
-***
-Input: s1 = "abc", s2 = "lecaabee"
-Output: false
+* one way to account for this is to have 2, 26 elements in two different hashmaps accounting for the amount of letters.
+    -> and this is one thing to take into account, since you are operating with only 26 letters, and that
+       will be THE size of the array for the WHOLE time. Thus, this makes the case for O(1) space.
 
+* these two hashmaps will be backing up our sliding window approach.
 
-question:
+* we also need to initialize our matches variable in order to not have to compare all the elements in the hashmaps
+
+solution:
 --------
-* can i sort the strings?
-    -> sorting the strings could mess up the algorithm. you have to take the string just as is.
+s1Count = {}
+s2Count = {}
+matches = 0
 
-ideas:
-------
-what i could do is to initialize a window of size s1 and slide it accross the array. in case the two external pointers
-are in the s1 string, I could start an internal search of the subarray, shifting L and R until they cross. If an alert wasnt raised,
-return true, else keep searching.
+for _ in s1:
+
 """
-class Solution:
-    def checkInclusion(self, s1: str, s2: str) -> bool:
-        L, R = 0, len(s2) - 1
-        for L in range(len(s2) - len(s1)):
-            R = L + len(s1)
-            while (s2[L] in s1) and (s2[R] in s1) and (L < R):
-                R -= 1
-                L += 1
-                if (s2[L] not in s1) or (s2[R] not in s1):
-                    break
-            if L + 1 == R and (s2[L] in s1) and (s2[R] in s1):
-                return True
-        return False    
-# This solution wouldnt work because it doesnt take into account if the elements in s2 are unique or
-# the amount of times the element is present. The problem is more complex.
