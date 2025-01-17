@@ -37,7 +37,6 @@ for i in range(len(s1)):
     s1Count[s1[i]] = 1 + s1Count.get(s1[i], 0)
     s2Count[s2[i]] = 1 + s2Count.get(s2[i], 0)
 
-matches = 0
 for i in range(26):
     curChar = char(ord('a') + i)
     if s1Count[curChar] == s2Count[curChar]:
@@ -55,6 +54,55 @@ for R in range(len(s1), len(s2)):
     s2Count[s2[R]] = 1 + s2Count.get(s2[R], 0)
     if s2Count[s2[R]] == s1Count[s2[R]]:
         matches += 1
+    elif s2Count[s2[R]] == s1Count[s2[R]] + 1:
+        matches -= 1
     
+    s2Count[s2[L]] -= 1
+    if s2Count[s2[L]] == s1Count[s2[L]]:
+        matches += 1
+    elif s2Count[s2[L]] == s1Count[s2[L]] - 1:
+        matches -= 1
+    L += 1
+return False
     
 """
+class Solution:
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        if len(s1) > len(s2):
+            return False
+        
+        s1Count = {}
+        s2Count = {}
+        matches = 0
+
+        for i in range(26):
+            curChar = chr(ord('a') + i)
+            s1Count[curChar] = 0
+            s2Count[curChar] = 0
+        
+        for i in range(len(s1)):
+            s1Count[s1[i]] = 1 + s1Count.get(s1[i], 0)
+            s2Count[s2[i]] = 1 + s2Count.get(s2[i], 0)
+        
+        for i in range(26):
+            curChar = chr(ord('a') + i)
+            if s1Count[curChar] == s2Count[curChar]:
+                matches += 1
+        L = 0
+        for R in range(len(s1), len(s2)):
+            if matches == 26:
+                return True
+            
+            s2Count[s2[R]] += 1 
+            if s2Count[s2[R]] == s1Count[s2[R]]:
+                matches += 1
+            elif s2Count[s2[R]] == s1Count[s2[R]] + 1:
+                matches -= 1
+
+            s2Count[s2[L]] -= 1
+            if s2Count[s2[L]] == s1Count[s2[L]]:
+                matches += 1
+            elif s2Count[s2[L]] + 1 == s1Count[s2[L]]:
+                matches -= 1
+            L += 1
+        return matches == 26
