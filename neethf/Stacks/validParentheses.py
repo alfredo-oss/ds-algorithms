@@ -10,44 +10,47 @@ notes:
 
 * our hashmap would look like this:
     {
-        "(" : ")",
-        "{" : "}",
-        "[" : "]"
+        ")" : "(",
+        "}" : "{",
+        "]" : "["
     }
 * the key conditions are that, in order of appearance,
   the closing parenthesis needs to be after the opening parenthesis,
   which could translate in us checking for the inclusion of each 
   element analyzed from the array.
-    -> which we could achieve from either poping the element
-       from left or right.
-* this previous thought brings me to what might be the solution.
-    pseudocode:
-    ----------
-    while the string has elements:
-        leftElement = string.popleft()
-        rightElement = string.popright()
-        if hashmap[leftElement] != rightElement:
-            return False
-    return True # we return True once the list has no elements
-* there is a way of transforming a string to a list of each element
-  which presumably requires O(n) complexity and I can't remember right now
-  so, I will proceed through iterating over the elements of the string and 
-  appending them to an auxiliary array. This is because arrays in Python have 
-  the .pop() and .popleft() methods that we require for this approach.
+* the catch here is the way in which we check for inclusion. basically, what 
+  we need to do is iterate through every element:
+    -> what we will do on each iteration is to ask:
+        -> is the element in our hashmap?
+            -> if it is then check if the last element
+               of the stack is exactly the corresponding
+               value of the hashmap.[why?] - because that's the order 
+               of closings that we defined.
+               -> if this is not met then we need to return False
+        -> if the element is not on the hashmap which means that we 
+           which means that we are facing an opening character, then
+           we need to add that element to our stack.
+* remember that we can use a list to represent a stack:
+    [left most element] : arr[0] (just as reference)
+    [right most element] : arr[-1] (in the case of arrays we can easily
+    remove the right most element, which is the last appended element to 
+    the stack with the .pop() method) 
 """
-from collections import deque
+
 class Solution:
     def isValid(self, s: str) -> bool:
-        parMap = {
-            "(" : ")",
-            "{" : "}",
-            "[" : "]"
+        refMap = {
+            ")" : "(",
+            "}" : "{",
+            "]" : "["
         }
-        aux = [element for element in s]
-        aux = deque(aux)
-        while aux:
-            leftElement = aux.popleft()
-            rightElement = aux.pop()
-            if parMap[leftElement] != rightElement:
-                return False
-        return True
+        stack = []
+        for c in s:
+            if c in refMap:
+                if stack and refMap[c] == stack[-1]:
+                    stack.pop()
+                else:
+                    return False
+            else:
+                stack.append(c)
+        return True if not stack else False
