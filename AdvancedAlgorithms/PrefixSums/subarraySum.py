@@ -44,26 +44,45 @@ Output: 2
                                L       R
                     count = 3
     L should not shift unless it is used to reach the target number
-"""
+
+Brute Force O(n^2):
+------------
 class Solution:
     def subarraySum(self, nums: list[int], k: int) -> int:
-        L, R = 0, 1
         count = 0
-        prefix = []
-        cur = 0
-        for n in nums:
-            cur += n
-            prefix.append(cur)
-
-        while R < len(prefix) and L < R:
-            
-            if prefix[R] == k:
-                count += 1
-                R += 1
-                
-            elif prefix[R] > k and prefix[R] - prefix[L] == k:
-                count += 1
-                L += 1
-            R += 1
-
+        for i in range(len(nums)):
+            sum = 0
+            for j in range(i, len(nums)): # we start at i because we know the sub-array has to be contiguous
+                sum += nums[j]
+                if sum == k:
+                    count += 1
         return count
+
+Optimized O(n) sum:
+-------------------
+This solution has a catch, which is that you can't precompute the prefixes for all the elements in the array.
+The intuition is the following:
+    [1, -1, 1, 1, 1, 1]
+For each element we would ask:
+    - how many prefixes can we chop from consideration to achieve
+      the target?
+      -> A prefix can only be chopped if it meets the difference between
+         the current sum and the target value.
+This brings me to the next big concept, which is how do we know how many
+prefixes meet this condition. Well, we can achieve this by performing lookups
+to a hashmap, which will hold historical prefixes counts.
+    -> It is necessary to initialize the hashmap with a 0 : 1 count in case one single 
+       element meets the target value.
+"""                     
+class Solution:
+    def subarraySum(self, nums: list[int], k: int) -> int:
+        preMap = { 0 : 1}
+        diff = 0
+        curSum = 0
+        res = 0
+        for n in nums:
+            curSum += n
+            diff = curSum - k
+            res += preMap.get(diff, 0)
+            preMap[curSum] = 1 + preMap.get(curSum, 0)
+        return res
