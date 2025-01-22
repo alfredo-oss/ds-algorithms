@@ -37,3 +37,18 @@ class Solution:
             fast = fast.next.next
         return slow
 """
+from typing import Optional
+
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+class Solution:
+    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        slow = head
+        fast = head
+        while fast and fast.next: # it needs to have a fast.next element otherwise there is no way we can point to fast.next.next
+            slow = slow.next
+            fast = fast.next.next
+        return slow
