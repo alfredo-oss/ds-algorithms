@@ -62,7 +62,7 @@ class Solution:
             slow = tmp
 
         curSum = 0
-        while slow:
+        while slow and prev:
             curSum = max(prev.val + slow.val, curSum)
             prev = prev.next
             slow = slow.next
