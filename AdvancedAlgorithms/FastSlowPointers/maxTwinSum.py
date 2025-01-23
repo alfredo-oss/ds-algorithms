@@ -1,35 +1,47 @@
 """
-- My intuition is that we need to return twins as we find them in one pass.
-- We know that the length of the linked list is even, but, we don't actually know
-  what what the length of the linked list is, so we cant access elements by indexing
-  them.
-- The twin of an element is given by:
-    (n - i - 1) where 0 <= i <= (n / 2 - 1)
-- I could "send a pointer" to scan my n. Given that I know my n, I know my limit.
-- Then I could shift a slow pointer searching for a twin example i = 0 we know that its twin should be n - i - 1,
-  now we can ask the question: 
-    -> does n - i - 1 exist? if yes, then we shift our fast pointer as many times as moves = (n - i - 1) - i is.
-    -> we perform the sum of values and store it in an array.
+input: Optional[ListNode] # represents the head of a linked list.
+output: int
 
-Hint (1):
+example:
 --------
-How can reversing part of the linked list help find the answer?
-Let's take the case of:
+* the twin of a node (i) is defined by:
+  (n - 1 - i)th
 
-Original: (5) -> (4) -> (2) -> (1)
+[5, 4, 2, 1]
+ t1 t2 t2 t1
 
-Reversed: (1) -> (2) -> (4) -> (5)
-                  
-2nd half]          
-* how can I reverse a linked list?
-  for every traversed node you need to invert the pointers,
-  initializing the first pointer to None, thus, the tail of
-  the linked list. 
-* now the question is: how do I even get to the second half if I dont know what a half is?
-* if there is a half I should be able to reverse it.
-I need to use the half because if I use the original Node List I will not be able to compare if the Node
-has already been visited since nothing asures me that there are no duplicates.
-* My question is: What is the initialization logic?
+lets analyze how I could achieve this with fast and slow pointers:
+------------------------------------------------------------------
+- I know that my slow pointer will ALWAYS traverse the half of the array.
+  meanwhile I traverse the half of the array I could reverse half of the pointers,
+  because that would allow me to do the following:
+  initial round:
+  (5) -> (4) -> (2) -> (1)
+                [s]        [f] # this is where the loop will stop
+  None <- (5) <- (4)  (2) -> (1)
+               [prev] [s]        # then, we initialize another loop that 
+                                   initializes two pointers on both halfs
+                                   and starts iterating and returning the 
+                                   sum, maximizing it
+- Now, how can we actually achieve this:
+  slow, fast = head, head
+  prev, temp = None, None
+
+  while fast and fast.next:
+    fast = fast.next.next  --> [KEY CONCEPT HERE: Since we are mutating the linked list we need to first shift our fast pointer]
+    tmp = slow.next # we hold the next node
+    slow.next = prev # we re-assign the value of the current pointer, [!!! If we put our fast pointer assignation after this statement we would be shifting it towards a NULL node !!]
+    prev = slow # we update the prev value to the current node, because on the next iteration it will become the previous
+    slow = tmp # we move on to the next node
+    
+
+- since we reversed the first half of the linked list and we hold the prev and s value, we can start our 2nd iteration.
+  curSum = 0
+  while prev and slow:
+    curSum = max(prev.val + slow.val, curSum)
+    prev = prev.next
+    slow = slow.next
+  return curSum
 """
 from typing import Optional
 class ListNode:
@@ -38,5 +50,20 @@ class ListNode:
         self.next = None
 
 class Solution:
-    def pairSum(self, head:Optional[ListNode]) -> int:
-        
+    def pairSum(self, head: Optional[ListNode]) -> int:
+        slow, fast = head, head
+        prev = None
+
+        while fast and fast.next:
+            fast = fast.next.next
+            tmp = slow.next
+            slow.next = prev
+            prev = slow
+            slow = tmp
+
+        curSum = 0
+        while slow:
+            curSum = max(prev.val + slow.val, curSum)
+            prev = prev.next
+            slow = slow.next
+        return curSum
